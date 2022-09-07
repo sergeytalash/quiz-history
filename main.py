@@ -1,6 +1,5 @@
 import json
 import uuid
-from random import shuffle
 
 import streamlit as st
 
@@ -15,8 +14,11 @@ class Main:
                 st.session_state.answers = json.load(fr)
         if 'correct_answers' not in st.session_state:
             st.session_state.correct_answers = {}
+        if 'letters' not in st.session_state:
+            st.session_state.letters = {1: "А", 2: "Б", 3: "В"}
 
-    def answer(self, current, valid, question_index):
+    @staticmethod
+    def answer(current, valid, question_index):
         if current == valid:
             st.session_state.correct_answers[question_index] = True
         else:
@@ -24,12 +26,13 @@ class Main:
 
     def get_page(self, topic):
         qa_dict = st.session_state['questions'][topic]
-        st.title(topic)
+        qs = [int(i) for i in qa_dict.keys()]
+        q_min, q_max = min(qs), max(qs)
+        st.title(f"{topic} {q_min}-{q_max}")
         for i, qa in qa_dict.items():
-            st.write(f"Вопрос {i}:\n{qa['q']}")
+            st.markdown(f"Вопрос {i}: {qa['q']}")
             nums = list(range(1, 4))
-            shuffle(nums)
-            [st.button(label=f"{qa[str(v)]}", key=uuid.uuid4(), on_click=self.answer,
+            [st.button(label=f"{st.session_state.letters[v]}) {qa[str(v)]}", key=uuid.uuid4(), on_click=self.answer,
                        args=(st.session_state['answers'][i], v, i)) for v in nums]
             if st.session_state.correct_answers.get(i):
                 st.success("Верно")
