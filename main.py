@@ -46,7 +46,7 @@ class Main:
                 input("...")
 
     def stream(self):
-        selected_page = st.sidebar.selectbox("Select a page", st.session_state['questions'].keys())
+        selected_page = st.sidebar.selectbox("Выбрать тему:", st.session_state['questions'].keys())
         self.get_page(selected_page)
 
 
