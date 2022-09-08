@@ -12,10 +12,8 @@ class Main:
         if 'answers' not in st.session_state:
             with open("answers.json") as fr:
                 st.session_state.answers = json.load(fr)
-        if 'correct_answers' not in st.session_state:
-            st.session_state.correct_answers = {}
-        if 'letters' not in st.session_state:
-            st.session_state.letters = {1: "А", 2: "Б", 3: "В"}
+        st.session_state.setdefault('correct_answers', {})
+        st.session_state.setdefault('letters', {1: "А", 2: "Б", 3: "В"})
 
     @staticmethod
     def answer(current, valid, question_index):
