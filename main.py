@@ -26,7 +26,7 @@ class Main:
 
     def get_page(self, topic):
         qa_dict = st.session_state['questions'][topic]
-        st.markdown(f"### {topic} {self.min_max(qa_dict)}")
+        st.markdown(f"## {topic} {self.min_max(qa_dict)}")
         for i, qa in qa_dict.items():
             st.markdown(f"#### Вопрос {i}: {qa['q']}")
             [st.button(label=f"{st.session_state.letters[v]}) {qa[str(v)]}",
